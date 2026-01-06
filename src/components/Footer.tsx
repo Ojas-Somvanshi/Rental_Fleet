@@ -140,16 +140,16 @@ const Footer = () => {
             <h4 className="font-display font-semibold mb-4">Contact</h4>
             <ul className="space-y-4">
               <li>
-                <a href="tel:+18001234567" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">
+                <a href="tel:+919565999911" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">
                   <Phone className="w-4 h-4 text-primary" />
-                  +91 9565999911 <br/>
-                  +91 7458051873
+                  Lucknow: +91 9565999911 <br />
+                  Varanasi:  +91 9335020011
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@driveelite.com" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">
+                <a href="mailto:justmyrides@gmail.com" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">
                   <Mail className="w-4 h-4 text-primary" />
-                  hello@driveelite.com
+                  justmyrides@gmail.com
                 </a>
               </li>
               <li>
