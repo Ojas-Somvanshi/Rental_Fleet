@@ -25,7 +25,7 @@ const VehicleCard = ({ vehicle, viewMode, index, onQuickView }: VehicleCardProps
           <img
             src={vehicle.image}
             alt={vehicle.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
 
           {vehicle.available && <div className="badge-available absolute top-4 left-4">Available</div>}
@@ -149,7 +149,7 @@ const VehicleCard = ({ vehicle, viewMode, index, onQuickView }: VehicleCardProps
         <img
           src={vehicle.image}
           alt={vehicle.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
 
         {vehicle.available && <div className="badge-available absolute top-4 left-4">Available</div>}

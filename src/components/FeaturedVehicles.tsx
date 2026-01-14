@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 import VehicleCard from './VehicleCard';
 import { vehicles, categories } from '@/data/vehicles';
-import type { Vehicle } from '@/data/vehicles'; // <-- Add this
-import BookingModal from "./BookingModal";
-
+import type { Vehicle } from '@/data/vehicles';
+import BookingModal from './BookingModal';
 
 const FeaturedVehicles = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
 
-
-  const filteredVehicles = activeCategory === 'all'
-    ? vehicles
-    : vehicles.filter((v) => v.category === activeCategory);
+  const filteredVehicles =
+    activeCategory === 'all'
+      ? vehicles
+      : vehicles.filter((v) => v.category === activeCategory);
 
   return (
     <section id="fleet" className="py-20 md:py-32 relative">
@@ -34,7 +35,8 @@ const FeaturedVehicles = () => {
             Find Your Perfect <span className="text-gradient">Ride</span>
           </h2>
           <p className="section-subheading mx-auto">
-            Choose from a carefully curated collection of scooties, bikes, and cars that deliver comfort, convenience, and value.
+            Choose from a carefully curated collection of scooties, bikes, and cars that deliver
+            comfort, convenience, and value.
           </p>
         </motion.div>
 
@@ -64,17 +66,17 @@ const FeaturedVehicles = () => {
 
         {/* Vehicle Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {filteredVehicles.map((vehicle, index) => (
-          <VehicleCard
-            key={vehicle.id}
-            vehicle={vehicle}
-            index={index}
-            onBook={(v) => setSelectedVehicle(v)} // ← opens modal
-          />
-        ))}
+          {filteredVehicles.map((vehicle, index) => (
+            <VehicleCard
+              key={vehicle.id}
+              vehicle={vehicle}
+              index={index}
+              onBook={(v) => setSelectedVehicle(v)}
+            />
+          ))}
         </div>
 
-        {/* View All CTA */}
+        {/* ✅ View All CTA (Route to /cars) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -82,18 +84,19 @@ const FeaturedVehicles = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-12"
         >
-          <button className="inline-flex items-center gap-2 btn-secondary px-8 py-4 text-lg group">
+          <Link
+            to="/cars"
+            className="inline-flex items-center gap-2 btn-secondary px-8 py-4 text-lg group"
+          >
             View All Vehicles
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
+          </Link>
         </motion.div>
-            {selectedVehicle && (
-              <BookingModal
-                vehicle={selectedVehicle}
-                onClose={() => setSelectedVehicle(null)} // closes modal
-              />
-            )}
 
+        {/* Booking Modal */}
+        {selectedVehicle && (
+          <BookingModal vehicle={selectedVehicle} onClose={() => setSelectedVehicle(null)} />
+        )}
       </div>
     </section>
   );
