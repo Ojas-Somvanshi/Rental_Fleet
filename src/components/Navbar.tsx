@@ -1,220 +1,255 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Car, Sun, Moon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from '@/hooks/useTheme';
-import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect, useRef } from "react";
+import { Menu, X, Sun, Moon, User, LogOut, Calendar , Wallet} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/hooks/useTheme";
+import { useToast } from "@/hooks/use-toast";
+import AuthModal from "@/components/auth/AuthModal";
+import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [
-  { name: 'Home', href: '#home' },
-  { name: 'Rides', href: '#fleet' },
-  { name: 'How It Works', href: '#how-it-works' },
-  { name: 'Why Us', href: '#why-us' },
-  { name: 'Reviews', href: '#testimonials' },
-  { name: 'FAQ', href: '#faq' },
+  { name: "Home", href: "#home" },
+  { name: "Rides", href: "#fleet" },
+  { name: "How It Works", href: "#how-it-works" },
+  { name: "Why Us", href: "#why-us" },
+  { name: "Reviews", href: "#testimonials" },
+  { name: "FAQ", href: "#faq" },
 ];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
   const { theme, toggleTheme } = useTheme();
   const { toast } = useToast();
+  const { user, logout } = useAuth();
 
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  /* ================= SCROLL ================= */
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+  /* ================= CLOSE USER MENU ON OUTSIDE CLICK ================= */
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
     setIsMobileMenuOpen(false);
   };
 
   const handleThemeToggle = () => {
     toggleTheme();
     toast({
-      title: theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode',
-      description: `Switched to ${theme === 'dark' ? 'light' : 'dark'} theme`,
-    });
-  };
-
-  const handleBookNow = () => {
-    scrollToSection('#booking');
-    toast({
-      title: '📋 Booking Form',
-      description: 'Fill out the form below to reserve your vehicle',
+      title: theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode",
     });
   };
 
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'glass-nav shadow-lg shadow-background/20' 
-          : 'bg-transparent'
+        isScrolled ? "glass-nav shadow-lg" : "bg-transparent"
       }`}
     >
       <nav className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-        <motion.a 
-          href="#home"
-          onClick={(e) => { e.preventDefault(); scrollToSection('#home'); }}
-          className="flex items-center group"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          >
-          <div
-           className="
-           rounded-xl
-           bg-white
-           shadow-md
-           p-2
-           group-hover:scale-105
-           transition-transform
-           duration-300
-           "
-           >
-          <img
-           src="/logo.jpg"
-           alt="Just My Rides"
-           className="h-8 md:h-9 w-auto object-contain"
-          />
-          </div>
-        </motion.a>
 
-          {/* Desktop Navigation */}
-          <motion.div 
-            className="hidden lg:flex items-center gap-1"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            {navLinks.map((link, index) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 relative group"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                {link.name}
-                <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0" />
-              </a>
-            ))}
-          </motion.div>
-
-          {/* Right Actions */}
-          <motion.div 
-            className="hidden lg:flex items-center gap-3"
-            initial={{ opacity: 0, x: 20 }}
+          {/* ================= LOGO (UNCHANGED) ================= */}
+          <motion.a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("#home");
+            }}
+            className="flex items-center group"
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            {/* Theme Toggle */}
+            <div className="rounded-xl bg-white shadow-md p-2 group-hover:scale-105 transition-transform">
+              <img
+                src="/logo.jpg"
+                alt="Just My Rides"
+                className="h-8 md:h-9 w-auto object-contain"
+              />
+            </div>
+          </motion.a>
+
+          {/* ================= DESKTOP LINKS ================= */}
+          <div className="hidden lg:flex items-center gap-6">
+            {navLinks.map((l) => (
+              <button
+                key={l.name}
+                onClick={() => scrollToSection(l.href)}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                {l.name}
+              </button>
+            ))}
+          </div>
+
+          {/* ================= DESKTOP ACTIONS ================= */}
+          <div className="hidden lg:flex items-center gap-3 relative">
+            {/* Theme */}
             <button
               onClick={handleThemeToggle}
-              className="p-2.5 rounded-lg bg-secondary/50 border border-border/50 hover:bg-secondary/70 transition-all duration-300 hover:scale-105"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              className="p-2 rounded-lg bg-secondary/50 border"
             >
-              <AnimatePresence mode="wait">
-                {theme === 'dark' ? (
-                  <motion.div
-                    key="sun"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Sun className="w-5 h-5 text-primary" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="moon"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Moon className="w-5 h-5 text-primary" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
-
-            {/* Book Now CTA */}
-            <button
-              className="btn-primary text-sm"
-            >
-              Login
-            </button>
-          </motion.div>
-
-          {/* Mobile Actions */}
-          <div className="flex lg:hidden items-center gap-2">
-            {/* Mobile Theme Toggle */}
-            <button
-              onClick={handleThemeToggle}
-              className="p-2 rounded-lg bg-secondary/50 border border-border/50"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            >
-              {theme === 'dark' ? (
+              {theme === "dark" ? (
                 <Sun className="w-5 h-5 text-primary" />
               ) : (
                 <Moon className="w-5 h-5 text-primary" />
               )}
             </button>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="p-2 text-foreground"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {/* AUTH */}
+            {!user ? (
+              <button
+                onClick={() => setIsAuthOpen(true)}
+                className="btn-primary"
+              >
+                Sign In
+              </button>
+            ) : (
+              <div ref={dropdownRef} className="relative">
+                <button
+                  onClick={() => setIsUserMenuOpen((p) => !p)}
+                  className="w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center"
+                >
+                  <User className="w-5 h-5 text-primary" />
+                </button>
+
+                <AnimatePresence>
+                  {isUserMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 mt-3 w-56 bg-background border rounded-xl shadow-lg overflow-hidden"
+                    >
+                      <div className="px-4 py-3 text-sm text-muted-foreground">
+                        Hey <b>{user.email.split("@")[0]}</b>
+                      </div>
+
+                      <button className="flex items-center gap-2 w-full px-4 py-2 hover:bg-secondary">
+                        <User className="w-4 h-4" /> My Profile
+                      </button>
+
+                      <button className="flex items-center gap-2 w-full px-4 py-2 hover:bg-secondary">
+                        <Calendar className="w-4 h-4" /> My Bookings
+                      </button>
+
+                      <button className="flex items-center gap-2 w-full px-4 py-2 hover:bg-secondary">
+                        <Wallet className="w-4 h-4" /> My Wallet
+                      </button>
+
+                      <button
+                        onClick={logout}
+                        className="flex items-center gap-2 w-full px-4 py-2 text-red-500 hover:bg-secondary"
+                      >
+                        <LogOut className="w-4 h-4" /> Sign Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+          </div>
+
+          {/* ================= MOBILE BUTTONS ================= */}
+          <div className="lg:hidden flex items-center gap-2">
+            <button onClick={handleThemeToggle} className="p-2 rounded-lg">
+              {theme === "dark" ? <Sun /> : <Moon />}
+            </button>
+            <button onClick={() => setIsMobileMenuOpen((p) => !p)}>
+              {isMobileMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* ================= MOBILE MENU (FIXED) ================= */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden glass-nav border-t border-border/30"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="lg:hidden glass-nav border-t"
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-                  className="px-4 py-3 text-foreground hover:bg-secondary/50 rounded-lg transition-colors duration-300"
+            <div className="px-4 py-4 flex flex-col gap-2">
+              {navLinks.map((l) => (
+                <button
+                  key={l.name}
+                  onClick={() => scrollToSection(l.href)}
+                  className="px-4 py-3 rounded-lg hover:bg-secondary text-left"
                 >
-                  {link.name}
-                </a>
+                  {l.name}
+                </button>
               ))}
-              <button
-                onClick={handleBookNow}
-                className="btn-primary text-center mt-2"
-              >
-                Book Now
-              </button>
+
+              <div className="border-t my-2" />
+
+              {!user ? (
+                <button
+                  onClick={() => {
+                    setIsAuthOpen(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="btn-primary"
+                >
+                  Sign In
+                </button>
+              ) : (
+                <>
+                  <p className="px-4 py-2 text-sm text-muted-foreground">
+                    Hey {user.email.split("@")[0]}
+                  </p>
+
+                  <button className="px-4 py-3 text-left hover:bg-secondary rounded-lg">
+                    My Profile
+                  </button>
+
+                  <button className="px-4 py-3 text-left hover:bg-secondary rounded-lg">
+                    My Bookings
+                  </button>
+
+                  <button className="px-4 py-3 text-left hover:bg-secondary rounded-lg">
+                    My Wallet
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="px-4 py-3 text-left text-red-500 hover:bg-secondary rounded-lg"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AuthModal open={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </header>
   );
 };
