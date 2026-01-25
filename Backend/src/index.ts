@@ -1,55 +1,41 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express";
+
+import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { authRouter } from "./routes/auth.routes";
-
-
 
 const app = express();
 
 /* ===============================
    🔥 DEBUG (CONFIRM DEPLOY)
    =============================== */
-console.log("🔥 CORS VERSION: OPTIONS-FIXED");
+console.log("🔥 CORS VERSION: FINAL-STABLE");
 
 /* ===============================
-   ✅ ALLOWED ORIGINS
+   ✅ CORS (SIMPLE & RELIABLE)
    =============================== */
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:8080",
-  "https://justmyrides.com",
-  "https://www.justmyrides.com",
-  "https://justmyrides.vercel.app",
-];
-
-/* ===============================
-   ✅ CORS MIDDLEWARE
-   =============================== */
-
+/**
+ * IMPORTANT:
+ * ❌ No dynamic origin function
+ * ❌ No callback(null, false)
+ * ✅ Static allow-list ensures headers are ALWAYS attached
+ */
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      // IMPORTANT: do NOT throw error
-      return callback(null, false);
-    },
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:8080",
+      "https://justmyrides.com",
+      "https://www.justmyrides.com",
+      "https://justmyrides.vercel.app",
+    ],
     credentials: true,
   })
 );
 
-/* ===============================
-   ✅ THIS IS THE MISSING PART
-   ✅ GLOBAL OPTIONS HANDLER
-   =============================== */
-
+/* ✅ PRE-FLIGHT (REQUIRED FOR POST JSON) */
 app.options("*", cors());
 
 /* ===============================
@@ -63,6 +49,20 @@ app.use(express.json());
    =============================== */
 
 app.use("/api/auth", authRouter);
+
+/* ===============================
+   ✅ GLOBAL ERROR HANDLER
+   =============================== */
+
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.error("❌ Unhandled error:", err);
+
+  res.status(500).json({
+    message: "Internal server error",
+  });
+};
+
+app.use(errorHandler);
 
 /* ===============================
    ✅ SERVER START
