@@ -26,13 +26,13 @@ const SignInForm = ({ onSwitch, onSuccess }: Props) => {
           </div>
 
           {/* Phone */}
-          <Button
+          {/* <Button
             className="w-full gap-2 text-base py-6"
             onClick={() => setStep("phone")}
           >
             <Phone className="w-4 h-4" />
             Continue with Phone
-          </Button>
+          </Button> */}
 
           {/* Email */}
           <Button
@@ -98,7 +98,7 @@ const SignInForm = ({ onSwitch, onSuccess }: Props) => {
 
       {/* ================= EMAIL FLOW ================= */}
       {step === "email" && (
-        <EmailAuth onBack={() => setStep("default")} onSuccess={onSuccess}/>
+        <EmailAuth onBack={() => setStep("default")} onSuccess={onSuccess} onSwitch={onSwitch}/>
       )}
     </div>
   );

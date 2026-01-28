@@ -14,19 +14,19 @@ interface SignupData {
 }
 
 interface Props {
-  signupData?: SignupData; // present for signup, undefined for login
+  signupData?: SignupData;
+  onSwitch: () => void;
   onBack: () => void;
   onSuccess: () => void;
 }
 
-const EmailAuth = ({ signupData, onBack, onSuccess }: Props) => {
-  const { login } = useAuth(); 
+const EmailAuth = ({ signupData, onBack,onSwitch, onSuccess }: Props) => {
+  const { login } = useAuth();
 
   const [email, setEmail] = useState(signupData?.email ?? "");
   const [step, setStep] = useState<"email" | "otp">(
     signupData ? "otp" : "email"
   );
-
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -90,7 +90,7 @@ const EmailAuth = ({ signupData, onBack, onSuccess }: Props) => {
         ...(signupData ?? {}),
       });
 
-      login({ email }); // 🔥 USER LOGGED IN
+      login({ email });
       onSuccess();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Invalid OTP");
@@ -103,9 +103,17 @@ const EmailAuth = ({ signupData, onBack, onSuccess }: Props) => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold text-center">
-        {step === "email" ? "Sign In" : "Verify Email"}
-      </h2>
+      {/* ================= TITLE ================= */}
+      <div className="text-center space-y-1">
+        <h2 className="text-xl font-bold">
+          {step === "email" ? "Sign In" : "Verify Email"}
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          {step === "email"
+            ? "Access your bookings and rides"
+            : `OTP sent to ${email}`}
+        </p>
+      </div>
 
       {/* ================= EMAIL STEP ================= */}
       {step === "email" && (
@@ -129,10 +137,6 @@ const EmailAuth = ({ signupData, onBack, onSuccess }: Props) => {
       {/* ================= OTP STEP ================= */}
       {step === "otp" && (
         <>
-          <p className="text-sm text-center text-muted-foreground">
-            OTP sent to <b>{email}</b>
-          </p>
-
           <div className="flex justify-center gap-2">
             {otp.map((digit, i) => (
               <input
@@ -142,9 +146,13 @@ const EmailAuth = ({ signupData, onBack, onSuccess }: Props) => {
                 maxLength={1}
                 onChange={(e) => handleOtpChange(e.target.value, i)}
                 onKeyDown={(e) => handleBackspace(e, i)}
-                className={`w-12 h-12 text-center text-lg font-semibold rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring ${
-                  error ? "border-red-500" : ""
-                }`}
+                className={`
+                  w-12 h-12 text-center text-lg font-semibold
+                  rounded-lg border border-input
+                  bg-background text-foreground
+                  focus:outline-none focus:ring-2 focus:ring-ring
+                  ${error ? "border-red-500" : ""}
+                `}
               />
             ))}
           </div>
@@ -163,9 +171,31 @@ const EmailAuth = ({ signupData, onBack, onSuccess }: Props) => {
         </>
       )}
 
-      <button onClick={onBack} className="text-xs text-muted-foreground">
+      {/* BACK */}
+      <button
+        onClick={onBack}
+        className="text-xs text-muted-foreground hover:underline"
+      >
         ← Back
       </button>
+
+      {/* Switch */}
+          <p className="text-sm text-center text-muted-foreground">
+            Don’t have an account?{" "}
+            <button
+              onClick={onSwitch}
+              className="text-primary font-medium hover:underline"
+            >
+              Sign Up
+            </button>
+          </p>
+
+      {/* TERMS */}
+      <p className="text-xs text-center text-muted-foreground">
+        By signing in, I accept the{" "}
+        <span className="text-primary">Terms & Conditions</span> &{" "}
+        <span className="text-primary">Privacy Policy</span>.
+      </p>
     </div>
   );
 };
