@@ -3,11 +3,13 @@ import { ChevronDown, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import anime from 'animejs';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Animate title letters
@@ -41,14 +43,11 @@ const HeroSection = () => {
   };
 
   const scrollToFleet = () => {
-    const element = document.querySelector('#fleet');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      toast({
-        title: '🚗 Explore Our Fleet',
-        description: 'Browse 150+ premium vehicles',
-      });
-    }
+    navigate('/vehicles');
+    toast({
+      title: '🚗 Explore Our Fleet',
+      description: 'Browse 150+ premium vehicles',
+    });
   };
 
   return (

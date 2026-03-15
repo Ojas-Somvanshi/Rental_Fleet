@@ -5,10 +5,11 @@ import { useTheme } from "@/hooks/useTheme";
 import { useToast } from "@/hooks/use-toast";
 import AuthModal from "@/components/auth/AuthModal";
 import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const navLinks = [
   { name: "Home", href: "#home" },
-  { name: "Rides", href: "#fleet" },
+  { name: "Rides", href: "/vehicles" },
   { name: "How It Works", href: "#how-it-works" },
   { name: "Why Us", href: "#why-us" },
   { name: "Reviews", href: "#testimonials" },
@@ -20,6 +21,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const { theme, toggleTheme } = useTheme();
   const { toast } = useToast();
@@ -49,8 +51,12 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (href.startsWith('#')) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(href);
+    }
     setIsMobileMenuOpen(false);
   };
 
@@ -96,7 +102,11 @@ const Navbar = () => {
               <button
                 key={l.name}
                 onClick={() => scrollToSection(l.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                className={`text-sm font-medium ${
+                  l.href === "/vehicles"
+                    ? "text-muted-foreground hover:text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 {l.name}
               </button>

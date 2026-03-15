@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import VehicleCard from './VehicleCard';
 import { vehicles, categories } from '@/data/vehicles';
 import type { Vehicle } from '@/data/vehicles'; // <-- Add this
@@ -10,6 +11,7 @@ import BookingModal from "./BookingModal";
 const FeaturedVehicles = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+  const navigate = useNavigate();
 
 
   const filteredVehicles = activeCategory === 'all'
@@ -82,7 +84,10 @@ const FeaturedVehicles = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-12"
         >
-          <button className="inline-flex items-center gap-2 btn-secondary px-8 py-4 text-lg group">
+          <button 
+            onClick={() => navigate('/vehicles')}
+            className="inline-flex items-center gap-2 btn-secondary px-8 py-4 text-lg group"
+          >
             View All Vehicles
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           </button>
