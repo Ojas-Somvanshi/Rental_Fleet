@@ -326,11 +326,12 @@ const BookingModal: FC<BookingModalProps> = ({ vehicle, onClose }) => {
     }
     setTimeout(() => setPromoApplied(null), 2000);
   };
-
+const [loading, setLoading] = useState(false);
   /* confirm */
 const handleConfirm = async () => {
   try {
-    await fetch("http://localhost:5000/api/book", {
+    setLoading(true); // 🔥 START LOADING
+    const res = await fetch("https://justmyrides-backend.onrender.com/api/book", {    // i have not use ENV for this , for local use fetch("http://localhost:5000/api/book"
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -351,12 +352,15 @@ const handleConfirm = async () => {
         gst: gstAmount,
       }),
     });
-
+    const data = await res.json();
+    console.log(data);
     // ✅ show success UI AFTER API call
     setConfirmed(true);
 
   } catch (err) {
     console.error("Booking failed:", err);
+  } finally {
+    setLoading(false); // 🔥 STOP LOADING (VERY IMPORTANT)
   }
 };
 
@@ -857,9 +861,12 @@ if (confirmed) {
                       className="rounded-xl border-neutral-200 dark:border-blue-900/40 text-neutral-600 dark:text-neutral-400 font-semibold text-sm">
                       ← Back
                     </Button>
-                    <Button onClick={handleConfirm}
-                      className="bg-amber-500 hover:bg-amber-600 text-neutral-200 font-bold rounded-xl text-sm tracking-wide shadow-md shadow-amber-400/25">
-                      Confirm Booking ✓
+                    <Button
+                      onClick={handleConfirm}
+                      disabled={loading}
+                        className="bg-amber-500 hover:bg-amber-600 text-neutral-200 font-bold rounded-xl text-sm"
+                        >
+                        {loading ? "Processing..." : "Confirm Booking ✓"}
                     </Button>
                   </div>
                 </motion.div>
