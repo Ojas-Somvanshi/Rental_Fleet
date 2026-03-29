@@ -170,7 +170,7 @@ export const sendBookingEmail = async ({
           <table width="100%">
             <tr>
               <td><b>Grand Total</b></td>
-              <td align="right" style="color:#f59e0b;"><b>₹₹${formatPrice(total)}</b></td>
+              <td align="right" style="color:#f59e0b;"><b>₹${formatPrice(total)}</b></td>
             </tr>
           </table>
         </div>
@@ -185,7 +185,7 @@ export const sendBookingEmail = async ({
 
     const userRes = await resend.emails.send({
       from: "Just My Rides <no-reply@justmyrides.com>",
-      to: [email],
+      to: email,
       subject: "🚀 Booking Confirmed | Just My Rides",
       html: userHtml,
     });
