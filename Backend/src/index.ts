@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-
+import { bookingRouter } from "./routes/booking.routes";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { authRouter } from "./routes/auth.routes";
@@ -43,7 +43,7 @@ app.options("*", cors());
    =============================== */
 
 app.use(express.json());
-
+app.use("/api", bookingRouter);
 /* ===============================
    ✅ ROUTES
    =============================== */

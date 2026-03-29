@@ -328,9 +328,37 @@ const BookingModal: FC<BookingModalProps> = ({ vehicle, onClose }) => {
   };
 
   /* confirm */
-  const handleConfirm = () => {
+const handleConfirm = async () => {
+  try {
+    await fetch("http://localhost:5000/api/book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: details.email,
+        name: details.name,
+        vehicle: vehicle.name,
+        pickup: pickupTime,
+        drop: dropTime,
+        location,
+        total: totalAmount,
+        phone: details.mobile,
+        duration: durationLabel,
+        vehicleCost,
+        helmetCost,
+        insuranceCost,
+        gst: gstAmount,
+      }),
+    });
+
+    // ✅ show success UI AFTER API call
     setConfirmed(true);
-  };
+
+  } catch (err) {
+    console.error("Booking failed:", err);
+  }
+};
 
   /* direction for slide animation */
   const [slideDir, setSlideDir] = useState(1);
