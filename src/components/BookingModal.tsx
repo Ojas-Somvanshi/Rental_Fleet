@@ -85,7 +85,7 @@ const SelectField: FC<{
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl pl-9 pr-4 py-2.5 text-sm text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all cursor-pointer"
+        className="w-full appearance-none bg-neutral-50 dark:bg-[#0B1220] border border-neutral-200 dark:border-blue-900/40 rounded-xl pl-9 pr-4 py-2.5 text-sm text-neutral-800 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all cursor-pointer"
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((o) => (
@@ -122,10 +122,10 @@ const InputField: FC<{
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={`w-full bg-neutral-50 dark:bg-neutral-800 border rounded-xl pl-9 pr-4 py-2.5 text-sm text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:ring-2 transition-all
+        className={`w-full bg-neutral-50 dark:bg-[#0B1220] border rounded-xl pl-9 pr-4 py-2.5 text-sm text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:ring-2 transition-all
           ${error
             ? "border-red-400 focus:ring-red-400/30 focus:border-red-400"
-            : "border-neutral-200 dark:border-neutral-700 focus:ring-amber-500/40 focus:border-amber-500"
+            : "border-neutral-200 dark:border-blue-900/40 focus:ring-amber-500/40 focus:border-amber-500"
           }`}
       />
     </div>
@@ -160,7 +160,7 @@ const AddOnRow: FC<{
       {checked && (
         <motion.svg
           initial={{ scale: 0 }} animate={{ scale: 1 }}
-          className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}
+          className="w-3 h-3 text-neutral-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
         </motion.svg>
@@ -170,7 +170,7 @@ const AddOnRow: FC<{
       <span className="text-amber-500">{icon}</span>
       {label}
     </span>
-    <span className="ml-auto text-xs font-semibold text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded-full">
+    <span className="ml-auto text-xs font-semibold text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-[#0B1220] px-2 py-0.5 rounded-full">
       {price}
     </span>
   </label>
@@ -179,7 +179,7 @@ const AddOnRow: FC<{
 const RowLine: FC<{ label: string; value: string; highlight?: boolean; negative?: boolean }> = ({
   label, value, highlight, negative,
 }) => (
-  <div className={`flex justify-between items-center text-sm ${highlight ? "font-bold text-base text-neutral-900 dark:text-white" : "text-neutral-600 dark:text-neutral-400"}`}>
+  <div className={`flex justify-between items-center text-sm ${highlight ? "font-bold text-base text-neutral-900 dark:text-neutral-200" : "text-neutral-600 dark:text-neutral-400"}`}>
     <span>{label}</span>
     <span className={negative ? "text-emerald-500 dark:text-emerald-400" : highlight ? "text-amber-500" : ""}>
       {value}
@@ -202,9 +202,9 @@ const StepIndicator: FC<{ current: Step }> = ({ current }) => {
         <div key={s.key} className="flex items-center flex-1 last:flex-none">
           <div className="flex flex-col items-center gap-0.5">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-300
-              ${i < currentIdx ? "bg-emerald-500 text-white scale-90"
-                : i === currentIdx ? "bg-amber-500 text-white shadow-lg shadow-amber-400/40 scale-105"
-                : "bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-600"}`}
+              ${i < currentIdx ? "bg-emerald-500 text-neutral-200 scale-90"
+                : i === currentIdx ? "bg-amber-500 text-neutral-200 shadow-lg shadow-amber-400/40 scale-105"
+                : "bg-neutral-100 dark:bg-[#0B1220] text-neutral-400 dark:text-neutral-600"}`}
             >
               {i < currentIdx ? "✓" : s.icon}
             </div>
@@ -344,12 +344,12 @@ if (confirmed) {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md backdrop-blur-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
         <motion.div
-          className="bg-white dark:bg-neutral-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+          className="bg-gradient-to-br from-[#020617] via-[#020617] to-[#0a0f1f] border border-blue-900/40 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           initial={{ scale: 0.9, opacity: 0, y: 30 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 24 }}
@@ -357,10 +357,10 @@ if (confirmed) {
           {/* 🔶 Header / Hero */}
           <div className="bg-gradient-to-r from-amber-400 via-orange-400 to-pink-500 px-5 py-5 text-center">
             <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
-              <CheckCircle className="w-8 h-8 text-white" />
+              <CheckCircle className="w-8 h-8 text-neutral-200" />
             </div>
-            <h2 className="text-lg font-bold text-white">Booking Confirmed!</h2>
-            <p className="text-white/80 text-xs">
+            <h2 className="text-lg font-bold text-neutral-200">Booking Confirmed!</h2>
+            <p className="text-neutral-200/80 text-xs">
               Your ride is all set 🚀
             </p>
           </div>
@@ -369,47 +369,66 @@ if (confirmed) {
           <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
 
             {/* Rider Info */}
-            <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 rounded-xl p-3">
-              <p className="text-[10px] font-bold uppercase text-amber-500 mb-1">Rider</p>
-              <p className="text-sm font-semibold">{details.name}</p>
-              <p className="text-xs text-neutral-500">{details.mobile}</p>
-              <p className="text-xs text-neutral-500 truncate">{details.email}</p>
+            <div className="bg-neutral-50 dark:bg-[#0B1220] border border-neutral-200 dark:border-blue-900/40 rounded-xl p-3 
+              dark:shadow-[0_0_0_1px_rgba(59,130,246,0.1)] transition-all">
+              
+              <p className="text-[10px] font-bold uppercase text-amber-500 mb-1">
+                Rider
+              </p>
+
+              <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                {details.name}
+              </p>
+
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                {details.mobile}
+              </p>
+
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
+                {details.email}
+              </p>
             </div>
 
             {/* Trip Info */}
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="col-span-2">
                 <p className="text-neutral-400">Vehicle</p>
-                <p className="font-semibold">{vehicle.name}</p>
+                <p className="font-semibold text-neutral-900 dark:text-neutral-100">
+                  {vehicle.name}
+                </p>
               </div>
 
               <div>
                 <p className="text-neutral-400">Duration</p>
-                <p className="font-semibold">{durationLabel}</p>
+                <p className="font-semibold text-neutral-900 dark:text-neutral-100">
+                  {durationLabel}
+                </p>
               </div>
 
               <div>
                 <p className="text-neutral-400">Location</p>
-                <p className="font-semibold">{location}</p>
+                <p className="font-semibold text-neutral-900 dark:text-neutral-100">
+                  {location}
+                </p>
               </div>
 
               <div>
                 <p className="text-neutral-400">Pickup</p>
-                <p className="font-semibold">
+                <p className="font-semibold text-neutral-900 dark:text-neutral-100">
                   {format(range!.from!, "dd MMM")} · {pickupTime}
                 </p>
               </div>
 
               <div>
                 <p className="text-neutral-400">Drop</p>
-                <p className="font-semibold">
+                <p className="font-semibold text-neutral-900 dark:text-neutral-100">
                   {format(range!.to!, "dd MMM")} · {dropTime}
                 </p>
               </div>
             </div>
 
             {/* Bill */}
-            <div className="border-t pt-3 space-y-2 text-sm">
+            <div className="border-t border-neutral-200 dark:border-blue-900/40 pt-3 space-y-2 text-sm">
               <RowLine label={vehicle.name} value={`₹${fmt(vehicleCost)}`} />
               {helmetCost > 0 && (
                 <RowLine label="Helmet" value={`₹${fmt(helmetCost)}`} />
@@ -426,7 +445,7 @@ if (confirmed) {
                 />
               )}
 
-              <div className="border-t pt-2">
+              <div className="border-t border-neutral-200 dark:border-blue-900/40 pt-2">
                 <RowLine
                   label="Grand Total"
                   value={`₹${fmt(totalAmount)}`}
@@ -437,10 +456,10 @@ if (confirmed) {
           </div>
 
           {/* 🔘 Sticky Button */}
-          <div className="p-4 border-t border-neutral-200 dark:border-neutral-800">
+          <div className="p-4 border-t border-neutral-200 dark:border-blue-900/40">
             <Button
               onClick={onClose}
-              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl py-3 text-sm"
+              className="w-full bg-amber-500 hover:bg-amber-600 text-neutral-200 font-bold rounded-xl py-3 text-sm"
             >
               Done ✓
             </Button>
@@ -450,17 +469,16 @@ if (confirmed) {
     </AnimatePresence>
   );
 }
-
   /* ── Form ── */
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm p-0 sm:p-4"
+        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-md backdrop-blur-sm p-0 sm:p-4"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
         onClick={onClose}
       >
         <motion.div
-          className="bg-white dark:bg-neutral-900 w-full sm:max-w-lg rounded-t-[28px] sm:rounded-[28px] shadow-2xl overflow-hidden flex flex-col max-h-[95dvh] sm:max-h-[90vh]"
+          className="bg-gradient-to-br from-[#020617] via-[#020617] to-[#0a0f1f] border border-blue-900/40 w-full sm:max-w-lg rounded-t-[28px] sm:rounded-[28px] shadow-2xl overflow-hidden flex flex-col max-h-[95dvh] sm:max-h-[90vh]"
           initial={{ y: "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
@@ -477,7 +495,7 @@ if (confirmed) {
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-xl">🚗</div>
               <div>
-                <h2 className="text-lg font-extrabold text-neutral-900 dark:text-white tracking-tight">
+                <h2 className="text-lg font-extrabold text-neutral-900 dark:text-neutral-200 tracking-tight">
                   Book {vehicle.name}
                 </h2>
                 <p className="text-xs text-neutral-400 dark:text-neutral-500">
@@ -487,7 +505,7 @@ if (confirmed) {
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 flex items-center justify-center text-neutral-500 text-sm font-bold transition-colors"
+              className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-[#0B1220] hover:bg-neutral-200 dark:hover:bg-neutral-700 flex items-center justify-center text-neutral-500 text-sm font-bold transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -520,7 +538,7 @@ if (confirmed) {
                           className={`flex flex-col items-start p-3 rounded-xl border-2 transition-all text-left
                             ${activeCalendar === cal
                               ? "border-amber-500 bg-amber-50 dark:bg-amber-950/30"
-                              : "border-neutral-200 dark:border-neutral-700 hover:border-amber-300"}
+                              : "border-neutral-200 dark:border-blue-900/40 hover:border-amber-300"}
                             ${cal === "drop" && !range?.from ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
                         >
                           <span className="text-[10px] uppercase tracking-wider font-semibold text-neutral-400 dark:text-neutral-500 mb-1">
@@ -535,7 +553,7 @@ if (confirmed) {
                       ))}
                     </div>
 
-                    <div className="rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+                    <div className="rounded-xl border border-neutral-200 dark:border-blue-900/40 overflow-hidden">
                       <Calendar
                         mode="single"
                         selected={activeCalendar === "pickup" ? range?.from : range?.to}
@@ -590,7 +608,7 @@ if (confirmed) {
                       setError("");
                       goTo("details", 1);
                     }}
-                    className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl py-3 text-sm tracking-wide shadow-md shadow-amber-400/25"
+                    className="w-full bg-amber-500 hover:bg-amber-600 text-neutral-200 font-bold rounded-xl py-3 text-sm tracking-wide shadow-md shadow-amber-400/25"
                   >
                     Next: Your Details →
                   </Button>
@@ -686,14 +704,14 @@ if (confirmed) {
 
                   <div className="grid grid-cols-2 gap-3 pb-2">
                     <Button variant="outline" onClick={() => goTo("dates", -1)}
-                      className="rounded-xl border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 font-semibold text-sm">
+                      className="rounded-xl border-neutral-200 dark:border-blue-900/40 text-neutral-600 dark:text-neutral-400 font-semibold text-sm">
                       ← Back
                     </Button>
                     <Button
                       onClick={() => {
                         if (validateDetails()) goTo("options", 1);
                       }}
-                      className="bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm tracking-wide shadow-md shadow-amber-400/25"
+                      className="bg-amber-500 hover:bg-amber-600 text-neutral-200 font-bold rounded-xl text-sm tracking-wide shadow-md shadow-amber-400/25"
                     >
                       Next: Options →
                     </Button>
@@ -714,7 +732,7 @@ if (confirmed) {
                   {/* add-ons */}
                   <div>
                     <SectionLabel>Add-ons</SectionLabel>
-                    <div className="space-y-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-700">
+                    <div className="space-y-3 bg-neutral-50 dark:bg-[#0B1220]/50 rounded-xl p-4 border border-neutral-200 dark:border-blue-900/40">
                       {TWO_WHEELER_CATEGORIES.includes(vehicle.category) && (
                         <AddOnRow icon={<HardHat className="w-4 h-4" />} label="Helmet"
                           price="₹50/day" checked={addHelmet} onChange={setAddHelmet} />
@@ -736,10 +754,10 @@ if (confirmed) {
                           value={promoCode}
                           onChange={(e) => setPromoCode(e.target.value)}
                           onKeyDown={(e) => e.key === "Enter" && handleApplyPromo()}
-                          className={`w-full bg-neutral-50 dark:bg-neutral-800 border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 transition-all
+                          className={`w-full bg-neutral-50 dark:bg-[#0B1220] border rounded-xl pl-9 pr-4 py-2.5 text-sm text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 transition-all
                             ${promoApplied === "success" ? "border-emerald-400 focus:ring-emerald-400/30"
                               : promoApplied === "fail" ? "border-red-400 focus:ring-red-400/30"
-                              : "border-neutral-200 dark:border-neutral-700 focus:ring-amber-500/30 focus:border-amber-500"
+                              : "border-neutral-200 dark:border-blue-900/40 focus:ring-amber-500/30 focus:border-amber-500"
                             } text-neutral-800 dark:text-neutral-200`}
                         />
                       </div>
@@ -763,7 +781,7 @@ if (confirmed) {
                   {/* price summary */}
                   <div>
                     <SectionLabel>Price Summary</SectionLabel>
-                    <div className="bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-xl p-4 space-y-2.5">
+                    <div className="bg-neutral-50 dark:bg-[#0B1220]/50 border border-neutral-200 dark:border-blue-900/40 rounded-xl p-4 space-y-2.5">
                       <RowLine label={`${vehicle.name} (${durationLabel})`} value={`₹${fmt(vehicleCost)}`} />
                       <AnimatePresence>
                         {helmetCost > 0 && (
@@ -785,7 +803,7 @@ if (confirmed) {
                           </motion.div>
                         )}
                       </AnimatePresence>
-                      <div className="border-t border-neutral-200 dark:border-neutral-700 pt-2.5">
+                      <div className="border-t border-neutral-200 dark:border-blue-900/40 pt-2.5">
                         <motion.div animate={{ scale: discount > 0 ? [1, 1.04, 1] : 1 }} transition={{ duration: 0.3 }}>
                           <RowLine label="Grand Total" value={`₹${fmt(totalAmount)}`} highlight />
                         </motion.div>
@@ -794,7 +812,7 @@ if (confirmed) {
                   </div>
 
                   {/* rider mini recap */}
-                  <div className="bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-xl p-3 flex items-center gap-3">
+                  <div className="bg-neutral-50 dark:bg-[#0B1220]/50 border border-neutral-200 dark:border-blue-900/40 rounded-xl p-3 flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-lg flex-shrink-0">👤</div>
                     <div className="min-w-0">
                       <p className="text-sm font-bold text-neutral-800 dark:text-neutral-100 truncate">{details.name}</p>
@@ -808,11 +826,11 @@ if (confirmed) {
 
                   <div className="grid grid-cols-2 gap-3 pb-2">
                     <Button variant="outline" onClick={() => goTo("details", -1)}
-                      className="rounded-xl border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 font-semibold text-sm">
+                      className="rounded-xl border-neutral-200 dark:border-blue-900/40 text-neutral-600 dark:text-neutral-400 font-semibold text-sm">
                       ← Back
                     </Button>
                     <Button onClick={handleConfirm}
-                      className="bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm tracking-wide shadow-md shadow-amber-400/25">
+                      className="bg-amber-500 hover:bg-amber-600 text-neutral-200 font-bold rounded-xl text-sm tracking-wide shadow-md shadow-amber-400/25">
                       Confirm Booking ✓
                     </Button>
                   </div>
