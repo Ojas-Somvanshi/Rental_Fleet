@@ -258,7 +258,7 @@ export const sendBookingEmail = async ({
     try {
       const adminRes = await resend.emails.send({
         from: "Just My Rides <no-reply@justmyrides.com>",
-        to: ["steinerking2001@gmail.com"],
+        to: ["justmyrides@gmail.com"],
         subject: "🚨 New Booking Received",
         html: adminHtml,
       });
