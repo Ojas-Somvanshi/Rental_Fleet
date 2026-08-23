@@ -286,7 +286,7 @@ const BookingModal: FC<BookingModalProps> = ({ vehicle, onClose }) => {
   const insuranceCost = addInsurance ? totalHours * (INSURANCE_PER_DAY / 24) : 0;
   const subtotal = vehicleCost + helmetCost + insuranceCost;
   const gstAmount = subtotal * GST_PERCENTAGE;
-  const totalAmount = subtotal + gstAmount - discount;
+  const totalAmount = subtotal + 0 - discount;
 
   const isDateValid = totalHours > 0 && location.length > 0;
 
@@ -827,14 +827,14 @@ if (confirmed) {
                           </motion.div>
                         )}
                       </AnimatePresence>
-                      <RowLine label="GST (18%)" value={`₹${fmt(gstAmount)}`} />
+                      {/* <RowLine label="GST (18%)" value={`₹${fmt(gstAmount)}`} />
                       <AnimatePresence>
                         {discount > 0 && (
                           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
                             <RowLine label="Promo Discount" value={`-₹${discount}`} negative />
                           </motion.div>
                         )}
-                      </AnimatePresence>
+                      </AnimatePresence> */}
                       <div className="border-t border-neutral-200 dark:border-blue-900/40 pt-2.5">
                         <motion.div animate={{ scale: discount > 0 ? [1, 1.04, 1] : 1 }} transition={{ duration: 0.3 }}>
                           <RowLine label="Grand Total" value={`₹${fmt(totalAmount)}`} highlight />
