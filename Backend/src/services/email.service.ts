@@ -132,6 +132,14 @@ export const sendBookingEmail = async ({
 
         <table width="100%" style="margin-top:10px;">
           <tr>
+          <td><b>Booking From</b></td>
+          <td align="right">${startDate}</td>
+          </tr>
+          <tr>
+          <tr>
+          <td><b>Booking To</b></td>
+          <td align="right">${endDate}</td>
+          </tr>
             <td><b>Pickup</b></td>
             <td align="right">${pickup}</td>
           </tr>

@@ -468,7 +468,6 @@ if (confirmed) {
               {insuranceCost > 0 && (
                 <RowLine label="Insurance" value={`₹${fmt(insuranceCost)}`} />
               )}
-              <RowLine label="GST (18%)" value={`₹${fmt(gstAmount)}`} />
               {discount > 0 && (
                 <RowLine
                   label="Promo Discount"
