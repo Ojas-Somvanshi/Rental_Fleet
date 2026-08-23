@@ -58,6 +58,21 @@ export const sendOtpEmail = async (email: string, otp: string) => {
 
 const formatPrice = (num: number) => Math.round(num);
 
+const getRefundableAmount = (vehicleName: string) => {
+  const lowerName = vehicleName.toLowerCase();
+
+  const smallVehicles = [
+    "raider",
+    "super splendor",
+    "honda shine",
+    "honda activa 6g",
+  ];
+
+  return smallVehicles.some((name) => lowerName.includes(name))
+    ? 1000
+    : 2000;
+};
+
 
 export const sendBookingEmail = async ({
   email,
@@ -91,6 +106,8 @@ export const sendBookingEmail = async ({
   total: number;
 }) => {
   try {
+
+    const refundableAmount = getRefundableAmount(vehicle);
     /* ===============================
        👤 USER EMAIL (DARK PREMIUM UI)
     =============================== */
@@ -172,14 +189,34 @@ export const sendBookingEmail = async ({
         </table>
 
         <div style="margin-top:10px;border-top:1px solid #1e293b;padding-top:10px;">
-          <table width="100%">
-            <tr>
-              <td><b>Grand Total</b></td>
-              <td align="right" style="color:#f59e0b;"><b>₹${formatPrice(total)}</b></td>
-            </tr>
-          </table>
+  <table width="100%">
+    <tr>
+      <td><b>Grand Total</b></td>
+      <td align="right" style="color:#f59e0b;">
+        <b>₹${formatPrice(total)} ${duration}</b>
+      </td>
+    </tr>
+  </table>
+                   <!-- REFUNDABLE AMOUNT -->
+          <div style="
+            margin-top:10px;
+            padding:10px;
+            background:#0f172a;
+            border-radius:8px;
+            text-align:right;
+          ">
+
+            <span style="
+              color:#22c55e;
+              font-size:12px;
+            ">
+              Refundable Amount: ₹${formatPrice(refundableAmount)}
+            </span>
+
+          </div>
+
         </div>
-      </div>
+</div>
 
       <p style="margin-top:20px;text-align:center;color:#6b7280;font-size:11px;">
         © ${new Date().getFullYear()} Just My Rides
@@ -249,9 +286,20 @@ export const sendBookingEmail = async ({
           </tr>` : ""}
         </table>
 
-        <div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px;">
-          <b>Total: ₹₹${formatPrice(total)}</b>
-        </div>
+<div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px;">
+  <b>Total: ₹${formatPrice(total)} ${duration}</b>
+                 <!-- REFUNDABLE AMOUNT -->
+          <p style="
+            margin:8px 0 0;
+            color:#16a34a;
+            font-size:12px;
+          ">
+
+            Refundable Amount:
+            ₹${formatPrice(refundableAmount)}
+
+          </p>
+</div>
 
       </div>
     </div>

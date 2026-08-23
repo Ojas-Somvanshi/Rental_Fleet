@@ -274,16 +274,49 @@ const BookingModal: FC<BookingModalProps> = ({ vehicle, onClose }) => {
         ) / 3_600_000
       : 0;
 
-  const fullDays = Math.floor(totalHours / 24);
-  const extraHours = Math.round(totalHours % 24);
-  const durationLabel =
-    fullDays === 0 && extraHours === 0 ? "—"
-      : `${fullDays > 0 ? `${fullDays}d ` : ""}${extraHours > 0 ? `${extraHours}h` : ""}`;
+const fullDays = Math.floor(totalHours / 24);
+const extraHours = Math.round(totalHours % 24);
 
-  const vehicleCost = totalHours * (vehicle.price.daily / 24);
-  const helmetCost = addHelmet && TWO_WHEELER_CATEGORIES.includes(vehicle.category)
-    ? totalHours * (HELMET_PRICE_PER_DAY / 24) : 0;
-  const insuranceCost = addInsurance ? totalHours * (INSURANCE_PER_DAY / 24) : 0;
+const durationLabel =
+  fullDays === 0 && extraHours === 0
+    ? "—"
+    : `${fullDays > 0 ? `${fullDays}d ` : ""}${extraHours > 0 ? `${extraHours}h` : ""}`;
+
+// Small bikes / scooty
+const SMALL_VEHICLES = [
+  "raider",
+  "super splendor",
+  "honda shine",
+  "honda activa 6g",
+];
+
+const isSmallVehicle = SMALL_VEHICLES.some((name) =>
+  vehicle.name.toLowerCase().includes(name)
+);
+
+// Extra-hour rate
+const EXTRA_HOUR_RATE = isSmallVehicle ? 70 : 120;
+
+// Vehicle pricing
+let vehicleCost = fullDays * vehicle.price.daily;
+
+if (extraHours > 0) {
+  if (extraHours <= 3) {
+    vehicleCost += extraHours * EXTRA_HOUR_RATE;
+  } else {
+    vehicleCost += vehicle.price.daily;
+  }
+}
+
+const helmetCost =
+  addHelmet && TWO_WHEELER_CATEGORIES.includes(vehicle.category)
+    ? totalHours * (HELMET_PRICE_PER_DAY / 24)
+    : 0;
+
+const insuranceCost =
+  addInsurance
+    ? totalHours * (INSURANCE_PER_DAY / 24)
+    : 0;
   const subtotal = vehicleCost + helmetCost + insuranceCost;
   const gstAmount = subtotal * GST_PERCENTAGE;
   const totalAmount = subtotal + 0 - discount;
