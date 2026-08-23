@@ -342,6 +342,13 @@ const handleConfirm = async () => {
         vehicle: vehicle.name,
         pickup: pickupTime,
         drop: dropTime,
+        // 📅 BOOKING DATES
+        startDate: range?.from
+          ? format(range.from, "dd MMM yyyy")
+          : "",
+        endDate: range?.to
+          ? format(range.to, "dd MMM yyyy")
+          : "",
         location,
         total: totalAmount,
         phone: details.mobile,
@@ -349,7 +356,6 @@ const handleConfirm = async () => {
         vehicleCost,
         helmetCost,
         insuranceCost,
-        gst: gstAmount,
       }),
     });
     const data = await res.json();
