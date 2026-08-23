@@ -68,10 +68,11 @@ export const sendBookingEmail = async ({
   drop,
   location,
   duration,
+  startDate,
+  endDate,
   vehicleCost,
   helmetCost,
   insuranceCost,
-  gst,
   total,
 }: {
   email: string;
@@ -82,10 +83,11 @@ export const sendBookingEmail = async ({
   drop: string;
   location: string;
   duration: string;
+  startDate: string;
+  endDate: string;
   vehicleCost: number;
   helmetCost: number;
   insuranceCost: number;
-  gst: number;
   total: number;
 }) => {
   try {
@@ -159,11 +161,6 @@ export const sendBookingEmail = async ({
             <td>Insurance</td>
             <td align="right">₹${insuranceCost}</td>
           </tr>` : ""}
-
-          <tr>
-            <td>GST (18%)</td>
-            <td align="right">₹${gst}</td>
-          </tr>
         </table>
 
         <div style="margin-top:10px;border-top:1px solid #1e293b;padding-top:10px;">
@@ -218,6 +215,8 @@ export const sendBookingEmail = async ({
         <p><b>Vehicle:</b> ${vehicle}</p>
         <p><b>Location:</b> ${location}</p>
         <p><b>Duration:</b> ${duration}</p>
+        <p><b>Booking From:</b> ${startDate}</p>
+        <p><b>Booking To:</b> ${endDate}</p>
         <p><b>Pickup:</b> ${pickup}</p>
         <p><b>Drop:</b> ${drop}</p>
 
@@ -240,11 +239,6 @@ export const sendBookingEmail = async ({
             <td>Insurance</td>
             <td align="right">₹${insuranceCost}</td>
           </tr>` : ""}
-
-          <tr>
-            <td>GST</td>
-            <td align="right">₹${gst}</td>
-          </tr>
         </table>
 
         <div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px;">

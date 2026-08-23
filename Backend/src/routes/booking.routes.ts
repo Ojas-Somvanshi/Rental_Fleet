@@ -8,7 +8,7 @@ export const bookingRouter = Router();
    =============================== */
 bookingRouter.post("/book", async (req, res) => {
   try {
-    const {
+  const {
   email,
   name,
   phone,
@@ -17,12 +17,13 @@ bookingRouter.post("/book", async (req, res) => {
   drop,
   location,
   duration,
+  startDate,
+  endDate,
   vehicleCost,
   helmetCost,
   insuranceCost,
-  gst,
   total,
-    } = req.body;
+} = req.body;
 
     if (!email || !name || !vehicle) {
       return res.status(400).json({
@@ -34,7 +35,7 @@ bookingRouter.post("/book", async (req, res) => {
     // Save booking in DB here later
 
     // ✉️ Send email
-    await sendBookingEmail({
+await sendBookingEmail({
   email,
   name,
   phone,
@@ -43,12 +44,13 @@ bookingRouter.post("/book", async (req, res) => {
   drop,
   location,
   duration,
+  startDate,
+  endDate,
   vehicleCost,
   helmetCost,
   insuranceCost,
-  gst,
   total,
-    });
+});
 
     return res.json({
       success: true,
